@@ -20,29 +20,33 @@ const DeadbeatsApp = () => {
     hidden: { opacity: 0 },
     show: {
       opacity: 1,
-      transition: { staggerChildren: 0.1, delayChildren: 0.2 },
+      transition: { staggerChildren: 0.1, delayChildren: 0.15 },
     },
   };
 
   const fadeUp = {
-    hidden: { opacity: 0, y: 20 },
+    hidden: { opacity: 0, y: 16 },
     show: {
       opacity: 1,
       y: 0,
-      transition: { duration: 0.7, ease: [0.22, 1, 0.36, 1] as const },
+      transition: { duration: 0.6, ease: [0.22, 1, 0.36, 1] as const },
     },
   };
 
+  const base = import.meta.env.BASE_URL;
+
   return (
-    <div className="page-wrapper">
-      <div className="noise-overlay" />
+    <div className="page">
+      <div className="grain" />
+      <div className="bg-glow" />
+      <div className="page-border" />
 
       {/* Nav */}
       <nav className="nav">
         <motion.span
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
-          transition={{ duration: 0.8 }}
+          transition={{ duration: 0.6 }}
           className="nav-brand"
         >
           DEADBEATS & CO.
@@ -50,47 +54,38 @@ const DeadbeatsApp = () => {
         <motion.div
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
-          transition={{ duration: 0.8, delay: 0.1 }}
+          transition={{ duration: 0.6, delay: 0.1 }}
           className="nav-icons"
         >
-          <a href="#" aria-label="Social"><AtSign size={16} /></a>
-          <a href="#" aria-label="Music"><Music size={16} /></a>
+          <a href="#"><AtSign size={15} /></a>
+          <a href="#"><Music size={15} /></a>
         </motion.div>
       </nav>
 
-      {/* Main */}
+      {/* Content */}
       <motion.main
-        className="main-content"
+        className="content"
         variants={stagger}
         initial="hidden"
         animate="show"
       >
-        {/* Hero emblem */}
-        <motion.div variants={fadeUp} className="hero-emblem-wrap">
+        {/* Skull emblem — blended so black bg disappears */}
+        <motion.div variants={fadeUp} className="emblem-wrap">
           <img
-            src={`${import.meta.env.BASE_URL}assets/skull-club-emblem.png`}
-            alt="Deadbeats skull emblem"
-            className="hero-emblem"
+            src={`${base}assets/skull-club-emblem.png`}
+            alt="Deadbeats"
+            className="emblem"
           />
         </motion.div>
 
-        {/* Wordmark */}
-        <motion.div variants={fadeUp} className="wordmark-wrap">
-          <img
-            src={`${import.meta.env.BASE_URL}assets/deadbeats-and-co-wordmark.png`}
-            alt="Deadbeats & Co."
-            className="wordmark"
-            onError={(e) => {
-              e.currentTarget.style.display = 'none';
-            }}
-          />
+        {/* & CO. */}
+        <motion.div variants={fadeUp} className="co-text">
+          & Co.
         </motion.div>
 
-        {/* Store type */}
-        <motion.div variants={fadeUp} className="store-label">
-          <span className="label-line" />
-          <span>THRIFT & VINTAGE</span>
-          <span className="label-line" />
+        {/* Badge */}
+        <motion.div variants={fadeUp} className="badge">
+          THRIFT & VINTAGE
         </motion.div>
 
         {/* Tagline */}
@@ -100,16 +95,15 @@ const DeadbeatsApp = () => {
         </motion.p>
 
         {/* Form */}
-        <motion.div variants={fadeUp} className="form-wrapper">
+        <motion.div variants={fadeUp} className="form-wrap">
           <AnimatePresence mode="wait">
             {!isSubmitted ? (
               <motion.form
                 key="form"
                 onSubmit={handleSubmit}
                 exit={{ opacity: 0, y: -10 }}
-                className="signup-form"
               >
-                <div className="form-row">
+                <div className="fields-row">
                   <input
                     type="text"
                     placeholder="First name"
@@ -128,28 +122,26 @@ const DeadbeatsApp = () => {
                 <div className="email-row">
                   <input
                     type="email"
-                    placeholder="Your email"
+                    placeholder="Email address"
                     required
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
                   />
-                  <button type="submit" className="submit-btn" aria-label="Submit">
+                  <button type="submit">
                     <ArrowRight size={18} />
                   </button>
                 </div>
-                <p className="form-note">
-                  Be first to shop the collection
-                </p>
+                <p className="form-hint">Be first to shop the collection</p>
               </motion.form>
             ) : (
               <motion.div
-                key="success"
+                key="done"
                 initial={{ opacity: 0, scale: 0.95 }}
                 animate={{ opacity: 1, scale: 1 }}
-                className="success-state"
+                className="success"
               >
                 <img
-                  src={`${import.meta.env.BASE_URL}assets/skull-club-emblem.png`}
+                  src={`${base}assets/skull-club-emblem.png`}
                   alt=""
                   className="success-skull"
                 />
@@ -162,14 +154,14 @@ const DeadbeatsApp = () => {
       </motion.main>
 
       {/* Footer */}
-      <footer className="footer">
-        <motion.span initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 1 }}>
-          EST. 2024
+      <footer className="foot">
+        <motion.span initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.8 }}>
+          EST. 2026
         </motion.span>
-        <motion.span initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 1.1 }} className="footer-center">
+        <motion.span initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.9 }} className="foot-mid">
           COMING SOON
         </motion.span>
-        <motion.span initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 1.2 }}>
+        <motion.span initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 1.0 }}>
           DEADBEATS & CO.
         </motion.span>
       </footer>
